@@ -1,0 +1,24 @@
+//The line below moves the robot arm based on the input of a potentiometer
+
+#include <Servo.h>
+
+Servo fingers[5];  // Array containing Servo motors (each element in the array controls a finger)
+
+int potpin = 1;  // Pin in the arduino to which potentiometer is connected to
+int val;    // Value read from potPin
+
+void setup() { //this is the setup code that runs once
+  for (int i = 0; i < 5; i++){ //For loop, runs while i is less than 5. i starts at 0 and increments once everytime the loop runs
+    fingers[i].attach(i); //Initializes each servo object in fingers to it's corresponding pin (2-6)
+  }
+}
+
+void loop() { //this is the looping Code that keeps on running
+  val = analogRead(potpin);     // Reading the value from the potentiometer
+  //The above value is between 0 and 1023
+  //Servos want values from 0 and 180
+  val = map(val, 0, 1023, 0, 180); // Here we "match" the value and restrict it work with servos (0-180)
+  for (Servo s: fingers){ //Different type of for loop, called a foreach loop. Iterates through every entry in the fingers array
+    s.write(val);
+  }
+}
